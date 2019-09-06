@@ -20,6 +20,7 @@ macro(generateProto PROTO_FILE)
             "${file_proto}"
             DEPENDS "${file_proto}")
     add_custom_target(gen_${file_proto_name} DEPENDS "${file_proto_srcs}" "${file_proto_hdrs}" "${file_grpc_srcs}" "${file_grpc_hdrs}")
+    add_dependencies(gen_${file_proto_name} toolchain)
     add_dependencies(protogen gen_${file_proto_name})
     list(APPEND PROTO_CC_FILES ${file_proto_srcs} ${file_grpc_srcs})
 endmacro()
