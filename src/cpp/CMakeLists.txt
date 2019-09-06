@@ -6,7 +6,7 @@ set_source_files_properties(${PROTO_SOURCE_FILES} PROPERTIES GENERATED TRUE)
 
 message(PROTO_SOURCE_FILES: "${PROTO_SOURCE_FILES}")
 message(PROTO_INCLUDE_DIRS: "${PROTO_INCLUDE_DIRS}")
-set(KNN_SRCS main.cc)
+set(KNN_SRCS main.cc knnservice.cc)
 set(KNN_SERVICE_STATIC_LINK_LIBS
         protobuf::libprotobuf
         gRPC::grpc++

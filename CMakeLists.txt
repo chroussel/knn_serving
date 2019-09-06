@@ -25,5 +25,7 @@ list(APPEND KNN_LINK_LIBS protobuf::libprotobuf)
 list(APPEND KNN_STATIC_LINK_LIBS protobuf::libprotobuf)
 list(APPEND KNN_STATIC_INSTALL_INTERFACE_LIBS protobuf::libprotobuf)
 
+include_directories(include)
+
 add_subdirectory(src/proto)
 add_subdirectory(src/cpp)
