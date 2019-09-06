@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package knn.api;
+option java_outer_classname = "KnnProto";
+option csharp_namespace = "Criteo.Recommendation.Knn";
+
+message KnnRequest {
+    string country = 1;
+    int32 index_id = 2;
+    repeated ProductInput user_events = 3;
+    int32 result_count = 4;
+}
+
+message ProductInput {
+    int32 partner_id = 1;
+    sfixed64 product_id = 2;
+    int64 timestamp = 3;
+    int32 event_type = 4;
+}
+
+message KnnResponse {
+    repeated Product products = 1;
+}
+
+message Product {
+    sfixed64 product_id = 1;
+    float score = 2;
+}
+
+message CountryInfo {
+    string name = 1;
+    string indices_path = 2;
+    string extra_items_path = 3;
+    int64 reco_embeddings_count = 4;
+    int64 non_reco_embeddings_count = 5;
+    int64 total_embeddings_count = 6;
+}
+
+message AvailableCountriesResponse {
+    repeated CountryInfo countries = 1;
+}
+
+message IndicesRequest {
+    string country = 1;
+}
+
+message IndexInfo {
+    int32 partner_id = 1;
+    int64 embeddings_count = 2;
+}
+
+message IndicesResponse {
+    repeated IndexInfo indices = 1;
+}
+
+service Knn {
+    rpc Search(KnnRequest) returns (KnnResponse) {}
+    rpc GetAvailableCountries(google.protobuf.Empty) returns (AvailableCountriesResponse) {}
+    rpc GetIndicesForCountry(IndicesRequest) returns (IndicesResponse) {}
+}

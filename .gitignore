@@ -30,3 +30,74 @@
 *.exe
 *.out
 *.app
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# IDE specific
+.idea/
+gradlew
+gradlew.bat
+
+# IntelliJ specific
+.idea
+*.iml
+*.ipr
+*.iws
+
+#VS code
+.vscode
+
+# Eclipse specific
+*.settings
+*.classpath
+*.project
+*.checkstyle
+
+# Build repository
+target/
+build/
+out/
+bin/
+
+# Gradle build system
+.gradle/
+gradle/
+
+# internal
+adapt_template.sh
+
+# Cmake files
+target/
+Makefile
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+cmake-build-debug/
+*.cbp
+
+
+cmake-build-release/
+bash_history
+
+third_party/*_ep-install

@@ -1,0 +1,8 @@
+set(CARES_SOURCE_URL "https://c-ares.haxx.se/download/c-ares-${CARES_VERSION}.tar.gz")
+string(SUBSTRING ${PROTOBUF_VERSION} 1 -1 STRIPPED_PROTOBUF_VERSION)
+set(PROTOBUF_SOURCE_URL "https://github.com/protocolbuffers/protobuf/releases/download/${PROTOBUF_VERSION}/protobuf-all-${STRIPPED_PROTOBUF_VERSION}.tar.gz")
+set(ZLIB_SOURCE_URL "https://zlib.net/fossils/zlib-${ZLIB_VERSION}.tar.gz")
+set(GRPC_SOURCE_URL "https://github.com/grpc/grpc/archive/${GRPC_VERSION}.tar.gz")
+set(ZLIB_SOURCE_URL "https://zlib.net/fossils/zlib-${ZLIB_VERSION}.tar.gz")
+set(RAPIDJSON_SOURCE_URL "https://github.com/miloyip/rapidjson/archive/${RAPIDJSON_VERSION}.tar.gz")
+set(GFLAGS_SOURCE_URL "https://github.com/gflags/gflags/archive/${GFLAGS_VERSION}.tar.gz")
