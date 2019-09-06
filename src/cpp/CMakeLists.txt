@@ -2,6 +2,7 @@ add_custom_target(knn)
 
 get_target_property(PROTO_INCLUDE_DIRS protogen INCLUDE_DIRS)
 get_target_property(PROTO_SOURCE_FILES protogen SOURCE_FILES)
+set_source_files_properties(${PROTO_SOURCE_FILES} PROPERTIES GENERATED TRUE)
 
 message(PROTO_SOURCE_FILES: "${PROTO_SOURCE_FILES}")
 message(PROTO_INCLUDE_DIRS: "${PROTO_INCLUDE_DIRS}")
