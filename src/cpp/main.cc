@@ -1,9 +1,13 @@
 #include <iostream>
 #include <grpcpp/grpcpp.h>
 #include <grpc/support/log.h>
+
 #include "knn.grpc.pb.h"
 #include "knnservice.h"
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/algorithm/string.hpp>
 
 namespace po = boost::program_options;
 using grpc::Server;
@@ -15,16 +19,54 @@ using grpc::Status;
 using knn::api::KnnRequest;
 using knn::api::KnnResponse;
 using knn::api::Knn;
+using namespace boost::filesystem;
 
 class KnnController final : public Knn::Service {
 
 public:
-    KnnController() : knnService_(Euclidean, 100, 50) {
+    KnnController() : knnService_(Euclidean, 101, 50) {
 
     }
 
     void load_embeddings(std::string embeddings_path) {
+        auto path = absolute(embeddings_path);
+        recursive_directory_iterator itr(path);
+        for(;itr != recursive_directory_iterator(); ++itr)
+        {
+            if (itr->path().extension() == ".bin") {
+                std::cout << "Parsing " << itr->path().string() << std::endl;
+                ifstream embedding_file(itr->path(), std::ios::binary);
+                while(!embedding_file.eof()) {
+                    int64_t product_id;
+                    int32_t partner_id;
+                    int32_t embedding_length;
+                    embedding_file.read(reinterpret_cast<char *>(&product_id), sizeof(int64_t));
+                    embedding_file.read(reinterpret_cast<char *>(&partner_id), sizeof(int32_t));
+                    embedding_file.read(reinterpret_cast<char *>(&embedding_length), sizeof(int32_t));
+                    std::vector<float> embedding;
+                    embedding.reserve(embedding_length);
+                    embedding_file.read(reinterpret_cast<char *>(embedding.data()), embedding_length * sizeof(float));
+                    knnService_.addExtraItem(partner_id, product_id, embedding);
+                }
+            }
+        }
+    }
 
+    void load_indices(std::string indices_path) {
+        auto path = absolute(indices_path);
+        recursive_directory_iterator itr(path);
+        for(;itr != recursive_directory_iterator(); ++itr)
+        {
+            if (itr->path().extension() == ".bin") {
+                std::cout << "Parsing " << itr->path().string() << std::endl;
+                std::vector<std::string> results;
+                boost::split(results, itr->path().string(), [](char c){return c == '-';});
+
+                int32_t index_id = std::stoi(results[1]);
+                auto *index = knnService_.loadIndex(index_id, itr->path().string());
+                knnService_.addIndices({index_id}, {index});
+            }
+        }
     }
 
     Status Search(ServerContext* context, const KnnRequest* request, KnnResponse* response) override {
@@ -47,6 +89,7 @@ public:
 
         UserData userData(index_ids, queryLabels, timestamps, eventTypes);
         ModelData modelData(Model::TimeDecay, 2, 2);
+        std::cout << "Receiving request with partner " << request->index_id() << std::endl;
         auto result = knnService_.get_closest_items(userData, modelData, request->index_id(), request->result_count());
 
         for(auto &r: result.items) {
@@ -67,8 +110,9 @@ public:
 
     }
 
-    void load_embeddings(std::string embeddings_path) {
-        service_
+    void init(std::string embeddings_path, std::string indices_path) {
+        service_.load_embeddings(embeddings_path);
+        service_.load_indices(indices_path);
     }
 
     void run(int server_port) {
@@ -104,18 +148,18 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (vm.count("embeddings_path")) {
+    if (vm.count("embeddings_path") == 0) {
         std::cout << "embeddings_path is missing" << std::endl;
         return 1;
     }
 
-    if (vm.count("indices_path")) {
+    if (vm.count("indices_path") == 0) {
         std::cout << "indices_path is missing" << std::endl;
         return 1;
     }
 
     KnnServer server;
-    server.load_embeddings(vm["embeddings_path"])
+    server.init(vm["embeddings_path"].as<std::string>(), vm["indices_path"].as<std::string>());
     server.run(server_port);
     return 0;
 }

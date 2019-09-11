@@ -27,7 +27,7 @@ def longToBytes(longValue):
     return longValue.to_bytes(8, byteorder='little', signed=True)
 
 
-class ParquetTranscoder():
+class NonRecoEmbeddingTranscoder():
     def transcode(self, parquet_file):
         pqfile = pq.ParquetFile(parquet_file)
         logging.info(f"Processing : {parquet_file}")
@@ -40,11 +40,6 @@ class ParquetTranscoder():
         end = time.clock() - t0
         logging.info(f"Processing done for {parquet_file} in {end}")
 
-    def parseFormat(self, rowgroup):
-        pass
-
-
-class NonRecoEmbeddingTranscoder(ParquetTranscoder):
     def parseFormat(self, rowgroup):
         productPartnerKey = rowgroup.column(0)
         embedding = rowgroup.column(1)
@@ -61,19 +56,24 @@ class NonRecoEmbeddingTranscoder(ParquetTranscoder):
             yield b.getvalue()
 
 
-def IndexTranscoder(ParquetTranscoder):
-    def parseFormat(self, rowgroup):
-        partnerChunks = rowgroup.column(0)
-        indices = rowgroup.column(1)
-        for j in range(0, rowgroup.num_rows):
-            currentChunk = partnerChunks[j]
-            currentIndex = indices[j].as_buffer()
-            b = io.BytesIO()
-            b.write(intToBytes(currentChunk["partnerId"].as_py()))
-            b.write(intToBytes(currentChunk["chunkId"].as_py()))
-            b.write(intToBytes(len(currentIndex)))
-            b.write(currentIndex)
-            yield b.getvalue()
+class IndexTranscoder():
+    def transcode(self, parquet_file):
+        pqfile = pq.ParquetFile(parquet_file)
+        logging.info(f"Processing : {parquet_file}")
+        t0 = time.clock()
+        for i in range(0, pqfile.num_row_groups):
+            rowgroup = pqfile.read_row_group(i)
+            partnerChunks = rowgroup.column(0)
+            indices = rowgroup.column(1)
+            for j in range(0, rowgroup.num_rows):
+                currentChunk = partnerChunks[j]
+                currentIndex = indices[j].as_buffer()
+                partnerId = currentChunk["partnerId"].as_py()
+                chunkId = currentChunk["chunkId"].as_py()
+                with open(os.path.join(os.path.dirname(parquet_file), f"index-{partnerId}-{chunkId}.bin"), "wb") as index_file:
+                    index_file.write(currentIndex)
+        end = time.clock() - t0
+        logging.info(f"Processing done for {parquet_file} in {end}")
 
 
 def main():

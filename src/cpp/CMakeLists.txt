@@ -15,7 +15,9 @@ set(KNN_SERVICE_STATIC_LINK_LIBS
         c-ares::cares
         ZLIB::ZLIB
         gRPC::address_sorting
-        boost::boost_program_options)
+        boost::boost_program_options
+        boost::boost_filesystem
+        boost::boost_system)
 
 add_executable(knn_service ${KNN_SRCS} ${PROTO_SOURCE_FILES})
 add_dependencies(knn_service knn_dependencies)
