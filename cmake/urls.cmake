@@ -6,3 +6,5 @@ set(GRPC_SOURCE_URL "https://github.com/grpc/grpc/archive/${GRPC_VERSION}.tar.gz
 set(ZLIB_SOURCE_URL "https://zlib.net/fossils/zlib-${ZLIB_VERSION}.tar.gz")
 set(RAPIDJSON_SOURCE_URL "https://github.com/miloyip/rapidjson/archive/${RAPIDJSON_VERSION}.tar.gz")
 set(GFLAGS_SOURCE_URL "https://github.com/gflags/gflags/archive/${GFLAGS_VERSION}.tar.gz")
+string(REPLACE "." "_" BOOST_VERSION_UNDERSCORES ${BOOST_VERSION})
+set(BOOST_SOURCE_URL "https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION_UNDERSCORES}.tar.gz")

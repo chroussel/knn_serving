@@ -2,6 +2,7 @@
 
 import argparse
 import pyarrow as pa
+import pyarrow.parquet as pq
 import requests
 import os
 import queue
@@ -67,7 +68,7 @@ class HDfsDownloader(Downloader):
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     parser = argparse.ArgumentParser("Download data from hdfs")
-    parser.add_argument("--usehdfs", action="store_true", help="Use hdfs to download data, default: use web")
+    parser.add_argument("--usehdfs", action="store_true", help="Use hdfs to download data, default: use web", default=False)
     parser.add_argument("--host", help="Hdfs host to use")
     parser.add_argument('-O', "--dest", help="Folder to download to", default=".")
     parser.add_argument("uris", metavar='URI', help="List of uris to download data from", nargs='+')

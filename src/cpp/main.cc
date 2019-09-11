@@ -3,7 +3,9 @@
 #include <grpc/support/log.h>
 #include "knn.grpc.pb.h"
 #include "knnservice.h"
+#include <boost/program_options.hpp>
 
+namespace po = boost::program_options;
 using grpc::Server;
 using grpc::ServerAsyncResponseWriter;
 using grpc::ServerBuilder;
@@ -18,6 +20,10 @@ class KnnController final : public Knn::Service {
 
 public:
     KnnController() : knnService_(Euclidean, 100, 50) {
+
+    }
+
+    void load_embeddings(std::string embeddings_path) {
 
     }
 
@@ -61,11 +67,12 @@ public:
 
     }
 
-    void loadDataFromHDFS() {
+    void load_embeddings(std::string embeddings_path) {
+        service_
     }
 
-    void Run() {
-        std::string server_address("0.0.0.0:8888");
+    void run(int server_port) {
+        std::string server_address("0.0.0.0:" + std::to_string(server_port));
 
         ServerBuilder builder;
         builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -80,8 +87,35 @@ private:
 };
 
 int main(int argc, char** argv) {
+    int server_port;
+    po::options_description server_config_desc("Allowed options");
+    server_config_desc.add_options()
+            ("help", "")
+            ("p,port", po::value<int>(&server_port)->default_value(8888), "port to listen to")
+            ("embeddings_path", po::value<std::string>(), "path to embeddings to load")
+            ("indices_path", po::value<std::string>(), "path to indices to load");
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, server_config_desc), vm);
+    po::notify(vm);
+
+    if (vm.count("help")) {
+        std::cout << server_config_desc << std::endl;
+        return 1;
+    }
+
+    if (vm.count("embeddings_path")) {
+        std::cout << "embeddings_path is missing" << std::endl;
+        return 1;
+    }
+
+    if (vm.count("indices_path")) {
+        std::cout << "indices_path is missing" << std::endl;
+        return 1;
+    }
+
     KnnServer server;
-    server.loadDataFromHDFS();
-    server.Run();
+    server.load_embeddings(vm["embeddings_path"])
+    server.run(server_port);
     return 0;
 }

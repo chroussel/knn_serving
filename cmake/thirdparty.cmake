@@ -37,6 +37,7 @@ include(gflags)
 include(grpc)
 include(rapidjson)
 include(zlib)
+include(boost)
 
 build_protobuf()
 resolve_proto()
@@ -45,6 +46,7 @@ build_gflags()
 build_rapidjson()
 build_zlib()
 build_grpc()
+build_boost()
 
 message(STATUS "Found protobuf headers: ${PROTOBUF_INCLUDE_DIR}")
 
