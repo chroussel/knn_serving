@@ -59,5 +59,6 @@ get_target_property(GFLAGS_INCLUDE_DIR gflags INTERFACE_INCLUDE_DIRECTORIES)
 include_directories(SYSTEM ${GFLAGS_INCLUDE_DIR})
 get_target_property(RAPIDJSON_INCLUDE_DIR rapidjson INTERFACE_INCLUDE_DIRECTORIES)
 include_directories(SYSTEM ${RAPIDJSON_INCLUDE_DIR})
-
+get_target_property(BOOST_INCLUDE_DIR boost::boost_system INTERFACE_INCLUDE_DIRECTORIES)
+include_directories(SYSTEM ${BOOST_INCLUDE_DIR})
 
