@@ -1,0 +1,45 @@
+sudo: required
+dist: xenial
+
+services:
+ - docker
+
+cache:
+  directories:
+    - $HOME/.ccache
+
+env:
+  - CCACHE_COMPRESS: 1
+  - CCACHE_COMPRESSLEVEL: 5
+
+git:
+  depth: 10
+
+before_install:
+  - docker pull $OS
+  - source ci/travis/before-install.sh
+
+matrix:
+  fast_finish: true
+  include:
+    - name: "C++"
+      compiler: gcc
+      os: linux
+      env: OS='ubuntu:16.04'
+      language: cpp
+      before_script:
+        - $TRAVIS_BUILD_DIR/ci/travis/travis_install_ubuntu.sh
+      script:
+        - $TRAVIS_BUILD_DIR/ci/travis/travis_script_cpp.sh
+    - name: "Centos"
+      compiler: gcc
+      os: linux
+      language: cpp
+      env: OS='centos:7'
+      before_script:
+        - $TRAVIS_BUILD_DIR/ci/travis/travis_install_ubuntu.sh
+      script:
+        - $TRAVIS_BUILD_DIR/ci/travis/travis_script_cpp.sh
+
+script:
+  -
