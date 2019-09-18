@@ -3,5 +3,9 @@
 set -e
 set -x
 
-cmake
-make -j 4
+mkdir build
+(
+    cd build
+    cmake ..
+    make -j 4
+)
