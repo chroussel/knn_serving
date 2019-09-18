@@ -2,7 +2,7 @@ sudo: required
 dist: xenial
 
 services:
- - docker
+  - docker
 
 cache:
   directories:
@@ -40,6 +40,3 @@ matrix:
         - $TRAVIS_BUILD_DIR/ci/travis/travis_install_ubuntu.sh
       script:
         - $TRAVIS_BUILD_DIR/ci/travis/travis_script_cpp.sh
-
-script:
-  -
