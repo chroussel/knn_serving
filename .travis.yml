@@ -8,15 +8,10 @@ cache:
   directories:
     - $HOME/.ccache
 
-env:
-  - CCACHE_COMPRESS: 1
-  - CCACHE_COMPRESSLEVEL: 5
-
 git:
   depth: 10
 
 before_install:
-  - docker pull $OS
   - source ci/travis/before-install.sh
 
 matrix:
