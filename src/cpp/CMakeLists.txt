@@ -19,8 +19,12 @@ set(KNN_SERVICE_STATIC_LINK_LIBS
         boost::boost_filesystem
         boost::boost_system)
 
+get_target_property(BOOST_INCLUDE_DIR boost::boost_system INTERFACE_INCLUDE_DIRECTORIES)
+get_target_property(GRPC_INCLUDE_DIR gRPC::grpc INTERFACE_INCLUDE_DIRECTORIES)
+
+
 add_executable(knn_service ${KNN_SRCS} ${PROTO_SOURCE_FILES})
 add_dependencies(knn_service knn_dependencies)
 add_dependencies(knn_service protogen)
-target_include_directories(knn_service PUBLIC ${PROTO_INCLUDE_DIRS})
+target_include_directories(knn_service PUBLIC ${PROTO_INCLUDE_DIRS} ${BOOST_INCLUDE_DIR} ${GRPC_INCLUDE_DIR})
 target_link_libraries(knn_service ${KNN_SERVICE_STATIC_LINK_LIBS})
