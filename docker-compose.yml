@@ -1,0 +1,24 @@
+version: "3.5"
+
+x-ubuntu-volumes: &ubuntu-volumes
+  - .:/knn:deletaged
+  - ubuntu-cache:/build:delegated
+
+volumes:
+  ubuntu-cache:
+
+services:
+  cpp:
+    image: knn:cpp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${HOME}/.ccache:/build/ccache:cached
+      - .:/knn:delegated
+      - ubuntu-cache:/build:delegated
+
+  centos-7:
+    image: centos:7
+    volumes:
+      - .:/knn:delegated

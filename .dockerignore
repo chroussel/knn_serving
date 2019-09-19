@@ -1,0 +1,20 @@
+.git
+docker_cache
+docs/_build
+
+# IDE
+.vscode
+
+# cpp
+.idea
+build
+*-build
+*-build-*
+*_build
+build-debug
+build-release
+build-test
+Testing
+thirdparty
+indices/
+embeddings/
