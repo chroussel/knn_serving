@@ -4,12 +4,17 @@ x-ubuntu-volumes: &ubuntu-volumes
   - .:/knn:deletaged
   - ubuntu-cache:/build:delegated
 
+x-centos-volumes: &centos-volumes
+  - ./knn:delegtaed
+  - centos-cache:/build:delegated
+
 volumes:
   ubuntu-cache:
+  centos-cache:
 
 services:
-  cpp:
-    image: knn:cpp
+  ubuntu_cpp:
+    image: knn:ubuntu_cpp
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,7 +23,11 @@ services:
       - .:/knn:delegated
       - ubuntu-cache:/build:delegated
 
-  centos-7:
-    image: centos:7
+  centos_cpp:
+    image: knn:centos_cpp
+    build:
+      context: .
+      dockerfile: Dockerfile.centos
     volumes:
       - .:/knn:delegated
+      - centos-cache:/build:delegated

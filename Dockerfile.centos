@@ -1,0 +1,12 @@
+FROM centos:7
+
+RUN yum -y update && yum clean all
+RUN yum -y install epel-release
+RUN yum install -y cpp make autoconf git gcc gcc-c++ wget cmake3 cmake ninja openssl-devel ccache
+
+ENV CC=gcc \
+    GXX=g++ \
+    MAKE=make \
+    CMAKE=cmake3
+
+CMD [ "/knn/ci/build_script_cpp.sh" ]

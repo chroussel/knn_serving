@@ -23,15 +23,15 @@ matrix:
       env: OS='ubuntu:16.04'
       language: cpp
       before_script:
-        - $TRAVIS_BUILD_DIR/ci/travis/travis_install_ubuntu.sh
+        - docker-compose build ubuntu_cpp
       script:
-        - $TRAVIS_BUILD_DIR/ci/travis/travis_script_cpp.sh
+        - docker-compose run ubuntu_cpp
     - name: "Centos"
       compiler: gcc
       os: linux
       language: cpp
       env: OS='centos:7'
       before_script:
-        - docker-compose build $TRAVIS_BUILD_DIR/ci/travis/travis_install_centos.sh
+        - docker-compose build centos_cpp
       script:
-        - $TRAVIS_BUILD_DIR/ci/travis/travis_script_cpp.sh
+        - docker-compose run centos_cpp

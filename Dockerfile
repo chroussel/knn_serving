@@ -19,6 +19,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CC=gcc \
-    GXX=g++
+    GXX=g++ \
+    MAKE=make \
+    CMAKE=cmake
 
 CMD [ "/knn/ci/build_script_cpp.sh" ]
