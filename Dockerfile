@@ -23,6 +23,7 @@ ENV CC=gcc \
     MAKE=make \
     CMAKE=cmake \
     OS=ubuntu \
-    DIST_DIR=/build/dist
+    CMAKE_ARGS=-DCMAKE_BUILD_TYPE=Release \
+    DIST_DIR=/build/dist/ubuntu
 
 CMD [ "/knn/ci/build_script_cpp.sh" ]

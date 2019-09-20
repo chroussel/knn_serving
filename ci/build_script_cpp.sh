@@ -6,6 +6,7 @@ set -x
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 (
+    rm -rf $DIST_DIR
     cd build
     $CMAKE $DIR/.. \
         ${CMAKE_ARGS} \

@@ -9,6 +9,7 @@ ENV CC=gcc \
     MAKE=make \
     CMAKE=cmake3 \
     OS=centos7 \
-    DIST_DIR=/build/dist
+    CMAKE_ARGS=-DCMAKE_BUILD_TYPE=Release \
+    DIST_DIR=/build/dist/centos7
 
 CMD [ "/knn/ci/build_script_cpp.sh"]

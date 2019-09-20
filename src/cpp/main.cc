@@ -66,7 +66,7 @@ public:
             {
                 std::cout << "Parsing " << itr->path().string() << std::endl;
                 std::vector<std::string> results;
-                boost::split(results, itr->path().string(), [](char c) { return c == '-'; });
+                boost::split(results, itr->path().filename().string(), [](char c) { return c == '-'; });
 
                 int32_t index_id = std::stoi(results[1]);
                 auto *index = knnService_.loadIndex(index_id, itr->path().string());
