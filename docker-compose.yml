@@ -1,13 +1,5 @@
 version: "3.5"
 
-x-ubuntu-volumes: &ubuntu-volumes
-  - .:/knn:deletaged
-  - ubuntu-cache:/build:delegated
-
-x-centos-volumes: &centos-volumes
-  - ./knn:delegtaed
-  - centos-cache:/build:delegated
-
 volumes:
   ubuntu-cache:
   centos-cache:
@@ -22,6 +14,7 @@ services:
       - ${HOME}/.ccache:/build/ccache:cached
       - .:/knn:delegated
       - ubuntu-cache:/build:delegated
+      - ./dist:/build/dist:delegated
 
   centos_cpp:
     image: knn:centos_cpp
@@ -31,3 +24,4 @@ services:
     volumes:
       - .:/knn:delegated
       - centos-cache:/build:delegated
+      - ./dist:/build/dist:delegated

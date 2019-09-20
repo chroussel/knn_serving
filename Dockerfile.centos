@@ -7,6 +7,8 @@ RUN yum install -y cpp make autoconf git gcc gcc-c++ wget cmake3 cmake ninja ope
 ENV CC=gcc \
     GXX=g++ \
     MAKE=make \
-    CMAKE=cmake3
+    CMAKE=cmake3 \
+    OS=centos7 \
+    DIST_DIR=/build/dist
 
-CMD [ "/knn/ci/build_script_cpp.sh" ]
+CMD [ "/knn/ci/build_script_cpp.sh"]

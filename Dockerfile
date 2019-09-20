@@ -21,6 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 ENV CC=gcc \
     GXX=g++ \
     MAKE=make \
-    CMAKE=cmake
+    CMAKE=cmake \
+    OS=ubuntu \
+    DIST_DIR=/build/dist
 
 CMD [ "/knn/ci/build_script_cpp.sh" ]

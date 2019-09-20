@@ -10,6 +10,7 @@ include(DefineOptions)
 include(ExternalProject)
 include(thirdparty)
 
+
 add_custom_target(knn_dependencies)
 
 set(KNN_SERVICE 1.0.0)
@@ -26,6 +27,9 @@ list(APPEND KNN_STATIC_LINK_LIBS protobuf::libprotobuf)
 list(APPEND KNN_STATIC_INSTALL_INTERFACE_LIBS protobuf::libprotobuf)
 
 include_directories(include)
+
+message("Installing to ${CMAKE_INSTALL_PREFIX}")
+install(DIRECTORY DESTINATION "${CMAKE_INSTALL_PREFIX}")
 
 add_subdirectory(src/proto)
 add_subdirectory(src/cpp)

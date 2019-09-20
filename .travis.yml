@@ -1,37 +1,41 @@
 sudo: required
 dist: xenial
-
 services:
-  - docker
-
+- docker
 cache:
   directories:
-    - $HOME/.ccache
-
+  - "$HOME/.ccache"
 git:
   depth: 10
-
 before_install:
-  - source ci/travis/before-install.sh
-
+- source ci/travis/before-install.sh
 matrix:
   fast_finish: true
   include:
-    - name: "C++"
-      compiler: gcc
-      os: linux
-      env: OS='ubuntu:16.04'
-      language: cpp
-      before_script:
-        - docker-compose build ubuntu_cpp
-      script:
-        - docker-compose run ubuntu_cpp
-    - name: "Centos"
-      compiler: gcc
-      os: linux
-      language: cpp
-      env: OS='centos:7'
-      before_script:
-        - docker-compose build centos_cpp
-      script:
-        - docker-compose run centos_cpp
+  - name: C++
+    compiler: gcc
+    os: linux
+    env: OS='ubuntu:16.04'
+    language: cpp
+    before_script:
+    - docker-compose build ubuntu_cpp
+    script:
+    - docker-compose run ubuntu_cpp
+  - name: Centos
+    compiler: gcc
+    os: linux
+    language: cpp
+    env: OS='centos:7'
+    before_script:
+    - docker-compose build centos_cpp
+    script:
+    - docker-compose run centos_cpp
+deploy:
+  provider: releases
+  api_key:
+    secure: sAdAiwhI5jxFW7uBvoOk6z/7X/fkZ4EOOlhcoS9/MgC0qwar/HTOhl01+yGsLeNuUbozqNrkozs9jOq7zHNCTTcMg/qksVjjtws89zk1e0HTwt8moD8ra6P/M1PfG0NLXO5cn30TRMe9Z6aDEYBaRQpwDA9rgGTnvOTjarACdlRE4mag41bnYPi0/mbofVRqzEN8bnjdtjGdEBx7JyHZxgTKpT172axDoohIKiBPlBhzF0+xlvMaEd6WhmYSCBetNdG7fcAcs5gtL4pOdMLAkIVBZOZunGbPfJ0m7Ai2NS00wVdksrAagEQ7CjGxaOQbkIAGJN9bn1gkkQkrY9A7G7QD6yXbLpRjer/r15FYjjlUdLp2tgvKlHT4rSYfuL8Ty+zvteZsC9loMHXg44+UiWDW3f6AAIP626tT4z1NCcRb3TPdlFjD0kCdj38Kg4yfqMh4WA4MiZFJkvBLyYtaIppc1io8ZmGmlCRN6wJc5YXSSEEAr1HytQYey4ilfhrCdQutAk5AAOjVirdC61TtUIZ4WMs5OON+zKIQRuGpzJbhsHPiHOXecEDEAZMlU/QJOkEFNej0KT11i/84M6KsD2kk4uMa/L4j9lxWssp6jiCWQUCXHZltqTnE38CW8BpLMA+hYl2ccWnfq4yphRB+R9dSNwIyxq7pAYpc68nJLk8=
+  file: dist/knn-service*.tar.gz
+  file_glob: true
+  on:
+    repo: Darktrop/knn_serving
+    tags: true

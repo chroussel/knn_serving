@@ -28,3 +28,5 @@ add_dependencies(knn_service knn_dependencies)
 add_dependencies(knn_service protogen)
 target_include_directories(knn_service PUBLIC ${PROTO_INCLUDE_DIRS} ${BOOST_INCLUDE_DIR} ${GRPC_INCLUDE_DIR})
 target_link_libraries(knn_service ${KNN_SERVICE_STATIC_LINK_LIBS})
+
+install(TARGETS knn_service RUNTIME DESTINATION "bin")
