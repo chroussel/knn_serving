@@ -17,5 +17,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 (
 cd $DIST_DIR
-tar czvf knn-service-$OS.tar.gz .
+tar czvf knn-service-$OS.tar.gz ./*
 )
