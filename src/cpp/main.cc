@@ -97,7 +97,6 @@ public:
 
         UserData userData(index_ids, queryLabels, timestamps, eventTypes);
         ModelData modelData(Model::TimeDecay, 2, 2);
-        std::cout << "Receiving request with partner " << request->index_id() << std::endl;
         auto result = knnService_.get_closest_items(userData, modelData, request->index_id(), request->result_count());
 
         for (auto &r : result.items)
