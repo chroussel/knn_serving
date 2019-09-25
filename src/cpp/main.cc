@@ -116,7 +116,7 @@ public:
     }
 
     void init() {
-        std::vector<std::string> countryList = {"DE", "FR", "GB", "IT", "PL", "RU", "TR"};
+        std::vector<std::string> countryList = {"DE", "FR", "GB", "IT", "PL", "RU", "TR", "XX"};
         for (auto &c: countryList) {
             knnByCountry_.loadServiceForCountry(c);
         }
